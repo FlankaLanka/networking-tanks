@@ -45,28 +45,28 @@ public class RTSPlayer : NetworkBehaviour
 
     #region Client
 
-    public override void OnStartClient()
+    public override void OnStartAuthority()
     {
-        Unit.AuthorityOnUnitSpawned += ClientHandleUnitSpawned;
-        Unit.AuthorityOnUnitDespawned += ClientHandleUnitDespawned;
+        if (NetworkServer.active)
+            return;
+        Unit.AuthorityOnUnitSpawned += AuthorityHandleUnitSpawned;
+        Unit.AuthorityOnUnitDespawned += AuthorityHandleUnitDespawned;
     }
     public override void OnStopClient()
     {
-        Unit.AuthorityOnUnitSpawned -= ClientHandleUnitSpawned;
-        Unit.AuthorityOnUnitDespawned -= ClientHandleUnitDespawned;
+        if (!isClientOnly || !isOwned)
+            return;
+        Unit.AuthorityOnUnitSpawned -= AuthorityHandleUnitSpawned;
+        Unit.AuthorityOnUnitDespawned -= AuthorityHandleUnitDespawned;
     }
 
-    private void ClientHandleUnitSpawned(Unit unit)
+    private void AuthorityHandleUnitSpawned(Unit unit)
     {
-        if (!isOwned)
-            return;
         myUnits.Add(unit);
     }
 
-    private void ClientHandleUnitDespawned(Unit unit)
+    private void AuthorityHandleUnitDespawned(Unit unit)
     {
-        if (!isOwned)
-            return;
         myUnits.Remove(unit);
     }
 
