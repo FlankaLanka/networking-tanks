@@ -7,6 +7,7 @@ using System;
 
 public class Unit : NetworkBehaviour
 {
+    [SerializeField] private int resourceCost = 10;
     [SerializeField] private Health health;
     [SerializeField] private Targeter targeter;
     [SerializeField] private UnityEvent onSelected;
@@ -19,15 +20,10 @@ public class Unit : NetworkBehaviour
     public static event Action<Unit> AuthorityOnUnitDespawned;
 
     [SerializeField] private UnitMovement unitMovement;
-    public UnitMovement GetUnitMovement()
-    {
-        return unitMovement;
-    }
-
-    public Targeter GetTargeter()
-    {
-        return targeter;
-    }
+    
+    public UnitMovement GetUnitMovement() => unitMovement;
+    public Targeter GetTargeter() => targeter;
+    public int GetResourceCost() => resourceCost;
 
     #region Server
     public override void OnStartServer()

@@ -2,20 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class RTSPlayer : NetworkBehaviour
 {
-    [SerializeField] private List<Building> myBuildings = new List<Building>();
-    public List<Building> GetMyBuildings()
+    [SyncVar(hook=nameof(ClientHandleResourcesUpdated))]
+    private int resources = 500;
+    public event Action<int> ClientOnResourcesUpdated;
+
+    [SerializeField] private Building[] buildings = new Building[0];
+    private List<Building> myBuildings = new List<Building>();
+    private List<Unit> myUnits = new List<Unit>();
+
+    public List<Building> GetMyBuildings() => myBuildings;
+    public List<Unit> GetMyUnits() => myUnits;
+    public int GetResources() => resources;
+
+    [Server]
+    public void SetResources(int newResources)
     {
-        return myBuildings;
+        resources = newResources;
     }
 
-    [SerializeField] private List<Unit> myUnits = new List<Unit>();
-    public List<Unit> GetMyUnits()
-    {
-        return myUnits;
-    }
 
     #region Server
 
@@ -63,6 +71,26 @@ public class RTSPlayer : NetworkBehaviour
         myBuildings.Remove(building);
     }
 
+    [Command]
+    public void CmdTryPlaceBuilding(int buildingId, Vector3 point)
+    {
+        Building buildingToPlace = null;
+        foreach(Building building in buildings)
+        {
+            if(building.GetId() == buildingId)
+            {
+                buildingToPlace = building;
+                break;
+            }
+        }
+
+        if (buildingToPlace == null)
+            return;
+
+        GameObject buildingInstance = Instantiate(buildingToPlace.gameObject, point, buildingToPlace.transform.rotation);
+        NetworkServer.Spawn(buildingInstance, connectionToClient);
+    }
+
 
     #endregion
 
@@ -107,6 +135,10 @@ public class RTSPlayer : NetworkBehaviour
         myBuildings.Remove(building);
     }
 
+    private void ClientHandleResourcesUpdated(int oldResources, int newResources)
+    {
+        ClientOnResourcesUpdated?.Invoke(newResources);
+    }
 
     #endregion
 }
