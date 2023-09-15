@@ -17,10 +17,8 @@ public class UnitSpawner : NetworkBehaviour, IPointerClickHandler
     [SerializeField] private float spawnMoveRange = 10f;
     [SerializeField] private float unitSpawnDuration = 5f;
 
-    [SerializeField]
     [SyncVar(hook=nameof(ClientHandleQueuedUnitsUpdated))]
     private int queuedUnits;
-    [SerializeField]
     [SyncVar()]
     private float unitTimer;
 

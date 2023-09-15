@@ -88,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f230fa0add5803479ac8d7735537a5a, type: 3}
+--- !u!23 &1027996677097934725 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4225994327011138306, guid: 6f230fa0add5803479ac8d7735537a5a, type: 3}
+  m_PrefabInstance: {fileID: 3810488367488226439}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1137474262698364769 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4262811165860420582, guid: 6f230fa0add5803479ac8d7735537a5a, type: 3}
@@ -100,6 +105,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1062831188326804460, guid: ec7d748134035cf4584cda6370e4ae6e, type: 3}
+      propertyPath: colorRenderers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062831188326804460, guid: ec7d748134035cf4584cda6370e4ae6e, type: 3}
+      propertyPath: colorRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 1027996677097934725}
     - target: {fileID: 4925269298602053248, guid: ec7d748134035cf4584cda6370e4ae6e, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 1.5

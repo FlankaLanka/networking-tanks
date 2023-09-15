@@ -10,18 +10,28 @@ public class RTSPlayer : NetworkBehaviour
     private int resources = 500;
     public event Action<int> ClientOnResourcesUpdated;
 
+    [SerializeField] private LayerMask buildingBlockLayer = new LayerMask();
     [SerializeField] private Building[] buildings = new Building[0];
+    [SerializeField] private float buildingRangeLimit;
     private List<Building> myBuildings = new List<Building>();
     private List<Unit> myUnits = new List<Unit>();
+    private Color teamColor = new Color();
 
     public List<Building> GetMyBuildings() => myBuildings;
     public List<Unit> GetMyUnits() => myUnits;
     public int GetResources() => resources;
+    public Color GetTeamColor() => teamColor;
 
     [Server]
     public void SetResources(int newResources)
     {
         resources = newResources;
+    }
+
+    [Server]
+    public void SetTeamColor(Color color)
+    {
+        teamColor = color;
     }
 
 
@@ -87,10 +97,28 @@ public class RTSPlayer : NetworkBehaviour
         if (buildingToPlace == null)
             return;
 
+        BoxCollider buildingToPlaceCollider = buildingToPlace.GetComponent<BoxCollider>();
+        if (!CanPlaceBuilding(buildingToPlaceCollider, point) || resources < buildingToPlace.GetPrice())
+            return;
+
         GameObject buildingInstance = Instantiate(buildingToPlace.gameObject, point, buildingToPlace.transform.rotation);
         NetworkServer.Spawn(buildingInstance, connectionToClient);
-    }
 
+        SetResources(resources - buildingToPlace.GetPrice());
+    }
+    public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 point)
+    {
+        //if colliding with another building
+        if (Physics.CheckBox(point + buildingCollider.center, buildingCollider.size / 2, Quaternion.identity, buildingBlockLayer))
+            return false;
+
+        foreach (Building building in myBuildings)
+        {
+            if ((point - building.transform.position).sqrMagnitude <= buildingRangeLimit * buildingRangeLimit)
+                return true;
+        }
+        return false;
+    }
 
     #endregion
 
