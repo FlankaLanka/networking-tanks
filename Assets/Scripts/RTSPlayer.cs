@@ -6,6 +6,9 @@ using System;
 
 public class RTSPlayer : NetworkBehaviour
 {
+    [SerializeField] private Transform cameraTransform;
+    public Transform GetCameraTransform() => cameraTransform;
+
     [SyncVar(hook=nameof(ClientHandleResourcesUpdated))]
     private int resources = 500;
     public event Action<int> ClientOnResourcesUpdated;
