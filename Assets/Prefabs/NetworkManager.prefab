@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5688344366973863938}
   - component: {fileID: 5688344366973863948}
   - component: {fileID: 5688344366973863936}
-  - component: {fileID: 5688344366973863949}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -52,7 +51,7 @@ MonoBehaviour:
   autoConnectClientBuild: 0
   sendRate: 30
   offlineScene: Assets/Scenes/MenuScene.unity
-  onlineScene: Assets/Scenes/Scene_Map_01.unity
+  onlineScene: 
   transport: {fileID: 5688344366973863936}
   networkAddress: localhost
   maxConnections: 4
@@ -68,7 +67,7 @@ MonoBehaviour:
   - {fileID: 4112667275601101096, guid: 7a4f66e6b13c6ee47bca3ef188d23b84, type: 3}
   - {fileID: 4112667275601101096, guid: 35ac3c9cd099b764d9890b62bf688530, type: 3}
   timeInterpolationGui: 0
-  unitSpawnerPrefab: {fileID: 4112667275601101096, guid: 6bc4c0e43e177f442b7e43ccc0a96dfb, type: 3}
+  unitBasePrefab: {fileID: 4112667275601101096, guid: 6bc4c0e43e177f442b7e43ccc0a96dfb, type: 3}
   gameOverHandlerPrefab: {fileID: 7247321243142414063, guid: 8fc89ccba5f8a334a8a20ce29e97772f, type: 3}
 --- !u!114 &5688344366973863936
 MonoBehaviour:
@@ -94,17 +93,3 @@ MonoBehaviour:
   clientMaxReceivesPerTick: 1000
   clientSendQueueLimit: 10000
   clientReceiveQueueLimit: 10000
---- !u!114 &5688344366973863949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5688344366973863942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offsetX: 0
-  offsetY: 0
